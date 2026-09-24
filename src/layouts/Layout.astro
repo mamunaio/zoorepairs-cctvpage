@@ -410,7 +410,23 @@ const {
 
     // Mobile Menu Toggle
     function toggleMobileMenu() {
-      document.getElementById('mobile-menu')?.classList.toggle('hidden');
+      const menu = document.getElementById('mobile-menu');
+      const iconOpen = document.getElementById('menu-icon-open');
+      const iconClose = document.getElementById('menu-icon-close');
+      const btn = document.getElementById('mobile-menu-btn');
+      if (menu) {
+        const isHidden = menu.classList.toggle('hidden');
+        if (btn) btn.setAttribute('aria-expanded', (!isHidden).toString());
+        if (iconOpen && iconClose) {
+          if (isHidden) {
+            iconOpen.classList.remove('hidden');
+            iconClose.classList.add('hidden');
+          } else {
+            iconOpen.classList.add('hidden');
+            iconClose.classList.remove('hidden');
+          }
+        }
+      }
     }
   </script>
 
