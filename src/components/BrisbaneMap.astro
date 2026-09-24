@@ -1,0 +1,113 @@
+---
+// Component: BrisbaneMap.astro
+// Interactive Google Maps Brisbane Coverage Area
+---
+
+<section id="coverage-map" class="py-16 lg:py-20 bg-slate-50/50 dark:bg-slate-900/40 border-t border-slate-200 dark:border-white/10 transition-colors duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="rounded-2xl overflow-hidden shadow-xl border border-slate-200 dark:border-white/10 bg-slate-900 transition-colors duration-300 hover:border-red-500/30">
+      
+      <!-- Header bar -->
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 px-5 py-3.5 bg-slate-800 border-b border-white/10 text-white">
+        <div class="flex items-center gap-2.5">
+          <span class="relative flex h-3 w-3">
+            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-500 opacity-75"></span>
+            <span class="relative inline-flex rounded-full h-3 w-3 bg-red-600"></span>
+          </span>
+          <span class="text-sm font-bold tracking-wide">
+            Interactive Local Map • Brisbane, QLD
+          </span>
+        </div>
+
+        <div class="flex items-center gap-2">
+          <div class="inline-flex p-0.5 rounded-lg bg-white/5 border border-white/10 text-xs font-semibold">
+            <button
+              type="button"
+              id="map-btn-territory"
+              onclick="switchBrisbaneMap('territory')"
+              class="px-2.5 py-1 rounded-md text-white/60 hover:text-white transition-colors cursor-pointer"
+            >
+              Territory Map
+            </button>
+            <button
+              type="button"
+              id="map-btn-standard"
+              onclick="switchBrisbaneMap('standard')"
+              class="px-2.5 py-1 rounded-md bg-gradient-to-r from-red-600 to-red-500 text-white font-bold transition-colors cursor-pointer"
+            >
+              Brisbane Map
+            </button>
+          </div>
+
+          <a
+            href="https://www.google.com/maps/search/?api=1&query=Brisbane+QLD"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="hidden md:inline-flex items-center gap-1 text-xs text-white/60 hover:text-white transition-colors ml-2"
+          >
+            <span>Open in Google Maps</span>
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Embedded iframe -->
+      <div class="relative w-full h-[420px] sm:h-[460px] bg-slate-900">
+        <iframe
+          id="brisbane-map-iframe"
+          src="https://maps.google.com/maps?q=Brisbane+QLD&t=&z=10&ie=UTF8&iwloc=&output=embed"
+          width="100%"
+          height="100%"
+          style="border: 0;"
+          allowfullscreen=""
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Brisbane CCTV & security camera coverage map"
+          class="w-full h-full"
+        ></iframe>
+      </div>
+
+      <!-- Footer under map -->
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-3 px-5 py-3.5 bg-slate-800 border-t border-white/10 text-xs text-white/70">
+        <div class="flex items-center gap-2">
+          <svg class="w-4 h-4 text-red-500 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          <span>Fast mobile dispatch across Brisbane and surrounding South-East Queensland suburbs.</span>
+        </div>
+        <div class="font-semibold text-white/80 flex items-center gap-1.5">
+          <span>Need CCTV advice today? Call our technician on</span>
+          <a href="tel:0477319160" class="text-red-400 hover:text-red-300 font-bold inline-flex items-center gap-1">
+            <svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+            0477 319 160
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  function switchBrisbaneMap(source) {
+    const iframe = document.getElementById('brisbane-map-iframe');
+    const btnTerritory = document.getElementById('map-btn-territory');
+    const btnStandard = document.getElementById('map-btn-standard');
+    if (!iframe) return;
+
+    if (source === 'territory') {
+      iframe.src = 'https://www.google.com/maps/d/embed?mid=1IU2MaZf-FLJAjKCiUXKW67lZMWg7nv4&ehbc=2E312F';
+      btnTerritory.className = 'px-2.5 py-1 rounded-md bg-gradient-to-r from-red-600 to-red-500 text-white font-bold transition-colors cursor-pointer';
+      btnStandard.className = 'px-2.5 py-1 rounded-md text-white/60 hover:text-white transition-colors cursor-pointer';
+    } else {
+      iframe.src = 'https://maps.google.com/maps?q=Brisbane+QLD&t=&z=10&ie=UTF8&iwloc=&output=embed';
+      btnStandard.className = 'px-2.5 py-1 rounded-md bg-gradient-to-r from-red-600 to-red-500 text-white font-bold transition-colors cursor-pointer';
+      btnTerritory.className = 'px-2.5 py-1 rounded-md text-white/60 hover:text-white transition-colors cursor-pointer';
+    }
+  }
+</script>

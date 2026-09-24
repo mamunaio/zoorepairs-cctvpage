@@ -1,0 +1,92 @@
+---
+// Component: SuburbGrid.astro
+// Interactive Searchable 32+ Greater Brisbane Suburbs Directory
+---
+
+<section id="suburbs" class="scroll-mt-24 py-20 bg-slate-50/50 dark:bg-slate-900/40 border-b border-slate-200 dark:border-white/10 transition-colors duration-300">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-blue-500/10 border border-blue-500/30 text-blue-600 dark:text-cyan-400 text-xs font-black uppercase tracking-wider mb-2">
+        <svg class="w-3.5 h-3.5 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+        <span>Greater Brisbane Service Coverage</span>
+      </div>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-black text-slate-900 dark:text-white mt-2 tracking-tight">
+        Security Camera Installation Suburbs
+      </h2>
+      <p class="text-slate-600 dark:text-slate-300 text-sm sm:text-base mt-2 leading-relaxed">
+        Click your suburb below to pre-fill your quote inquiry with zero travel or call-out fees:
+      </p>
+
+      <!-- Instant Search Filter -->
+      <div class="mt-6 max-w-md mx-auto relative">
+        <input 
+          type="text" 
+          id="suburb-filter-input"
+          oninput="filterBrisbaneSuburbs(this.value)"
+          placeholder="Filter by suburb name (e.g. Chermside, Carindale)..." 
+          class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-300 dark:border-white/15 bg-white dark:bg-slate-800 text-sm text-slate-900 dark:text-white focus:outline-none focus:border-blue-500 shadow-sm"
+        />
+        <svg class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2 pointer-events-none" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Suburb Pills Container -->
+    <div id="suburbs-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2.5">
+      {[
+        "Brisbane CBD (4000)", "New Farm (4005)", "Fortitude Valley (4006)", "Spring Hill (4000)",
+        "Paddington (4064)", "Ashgrove (4060)", "Toowong (4066)", "Indooroopilly (4068)",
+        "Chermside (4032)", "Aspley (4034)", "Stafford (4053)", "Kedron (4031)",
+        "Carindale (4152)", "Carina (4152)", "Camp Hill (4152)", "Coorparoo (4151)",
+        "Sunnybank (4109)", "Mount Gravatt (4122)", "Upper Mount Gravatt (4122)", "Wishart (4122)",
+        "North Lakes (4509)", "Redcliffe (4020)", "Strathpine (4500)", "Brendale (4500)",
+        "Logan Central (4114)", "Springwood (4127)", "Daisy Hill (4127)", "Underwood (4119)",
+        "Ipswich (4305)", "Springfield Lakes (4300)", "Brookwater (4300)", "Kenmore (4069)"
+      ].map((suburb) => (
+        <button 
+          type="button"
+          onclick={`selectSuburbForQuote('${suburb}')`}
+          data-suburb={suburb.toLowerCase()}
+          class="suburb-pill px-3 py-2.5 rounded-xl bg-white dark:bg-slate-800 hover:bg-blue-600 hover:text-white dark:hover:bg-blue-600 border border-slate-200 dark:border-white/10 text-xs font-bold text-slate-700 dark:text-slate-300 hover:border-blue-500 text-center transition-all cursor-pointer truncate shadow-sm group"
+        >
+          <span class="group-hover:text-white">{suburb}</span>
+        </button>
+      ))}
+    </div>
+
+  </div>
+</section>
+
+<script is:inline>
+  function filterBrisbaneSuburbs(query) {
+    const q = (query || '').toLowerCase().trim();
+    const pills = document.querySelectorAll('#suburbs-container .suburb-pill');
+    pills.forEach((pill) => {
+      const name = pill.getAttribute('data-suburb') || '';
+      if (!q || name.includes(q)) {
+        pill.style.display = 'block';
+      } else {
+        pill.style.display = 'none';
+      }
+    });
+  }
+
+  function selectSuburbForQuote(suburb) {
+    const input = document.getElementById('form-suburb');
+    if (input) {
+      input.value = suburb;
+    }
+    const quoteEl = document.getElementById('quote');
+    if (quoteEl) {
+      quoteEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    if (input) {
+      input.focus();
+    }
+  }
+</script>
